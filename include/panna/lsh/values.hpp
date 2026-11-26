@@ -160,7 +160,8 @@ namespace panna {
     static_assert( std::is_trivially_copyable<BitwiseLshValue<24>>(),
                    "BitwiseLshValue must be trivially copiable" );
     static_assert( std::is_trivial<BitwiseLshValue<24>>(), "BitwiseLshValue must be trivial" );
-
+    
+    //Creates an array of Symbol of lenght K
     template <typename Symbol, uint8_t K>
     struct SymbolLshValue {
     private:

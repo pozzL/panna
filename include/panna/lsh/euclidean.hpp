@@ -16,6 +16,16 @@
 #include "panna/rand.hpp"
 #include "panna/logging.hpp"
 
+
+//Little explanation of the code by pozzL
+// repetitions is the classic L, k is the classic k parameters seen in the LSH papers,
+// BytewiseLshValue is the result of a concatenation like h(x) = (8byte, 8 byte, ... k_8Byte), 
+//
+// output: is a vector of BytewiseLshValue of length L using the classic LSH family function L2 distance projecting on a random gaussian vector + a random offset and all divided by w (quantization width) (bucket dimension) 
+//
+
+
+
 namespace panna {
 
     // from https://en.cppreference.com/w/cpp/numeric/math/erfc
@@ -39,15 +49,16 @@ namespace panna {
     private:
         friend class E2LSHBallSampler<K, Dataset, Distance>;
 
-        float quantization_width;
-        size_t repetitions;
-        Dataset random_vectors;
-        std::vector<float> offsets;
+        float quantization_width; //w
+        size_t repetitions; //L
+        Dataset random_vectors; //r in the papers
+        std::vector<float> offsets; //b in the papers
 
     public:
         E2LSH() {
         }
 
+        //creates all the random vectors needed and the b offsets
         E2LSH( float quantization_width, size_t dimensions, size_t repetitions ):
             quantization_width( quantization_width ),
             repetitions( repetitions ),

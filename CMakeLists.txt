@@ -105,13 +105,10 @@ if (NOT SKBUILD)
   add_executable(bench test/bench.cpp)
   add_executable(bench_lattice_dots test/bench_lattice_dots.cpp)
 
-  # if (HighFive_FOUND)
-  #   add_executable(glove examples/glove.cpp)
-  #   target_link_libraries(glove HighFive dbg_macro)
-
-  #   add_executable(fashion examples/fashion.cpp)
-  #   target_link_libraries(fashion HighFive dbg_macro)
-  # endif()
+  if (HighFive_FOUND)
+      add_executable(fashion examples/fashion.cpp)
+      target_link_libraries(fashion HighFive dbg_macro)
+  endif()
 endif()
 
 ###############################################################################
