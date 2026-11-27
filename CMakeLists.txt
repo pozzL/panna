@@ -107,7 +107,7 @@ if (NOT SKBUILD)
 
   if (HighFive_FOUND)
       add_executable(fashion examples/fashion.cpp)
-      target_link_libraries(fashion HighFive dbg_macro)
+      target_link_libraries(fashion HighFive )
   endif()
 endif()
 

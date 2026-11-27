@@ -27,7 +27,7 @@ float compute_recall( const std::vector<std::pair<float, uint32_t>>& ground,
 int main( int , char** ) {
     using Distance = panna::EuclideanDistance;
     using Dataset = panna::EuclideanPoints;
-    using HasherBuilder = panna::E2LSHBuilder<8, Dataset>;
+    using HasherBuilder = panna::E2LSHBuilder<8, Dataset, Distance>;
     using Hasher = HasherBuilder::Output;
 
     H5Easy::File file( "fashion-mnist-784-euclidean.hdf5", H5Easy::File::ReadOnly );
@@ -42,19 +42,20 @@ int main( int , char** ) {
     std::cout << "data loaded" << std::endl;
 
     size_t dimensions = data[0].size();
-    HasherBuilder hbuilder( dimensions );
+    HasherBuilder hbuilder( dimensions ); 
 
     panna::Index<Dataset, Hasher, Distance> index( dimensions, hbuilder, 32 );
     for ( auto& p : data ) {
         index.insert( p.begin(), p.end() );
     }
-    index.rebuild();
+    index.rebuild(); //creates all the bucket for k = 8 and L = 32
     std::cerr << "index ready" << std::endl;
 
     size_t k = 10;
     float delta = 0.2;
-    std::vector<std::vector<std::pair<float, uint32_t>>> res;
-    std::vector<std::vector<std::pair<float, uint32_t>>> res_prob;
+    std::vector<std::vector<std::pair<float, uint32_t>>> res; //100% correct 
+                                                              //brute force
+    std::vector<std::vector<std::pair<float, uint32_t>>> res_prob; //probabilistic k-NN
     res.resize( queries.size() );
     res_prob.resize( queries.size() );
 

@@ -84,6 +84,7 @@ namespace panna {
             return quantization_width;
         }
 
+        //input a point output the buckets in witch it ended in a g_j...L(point)
         void hash( typename Dataset::PointHandle point, std::vector<Value>& output ) const {
             output.resize( repetitions );
             const float inv_quantization_width = 1.0f / quantization_width;
@@ -104,7 +105,8 @@ namespace panna {
         }
 
         float collision_probability( float distance ) const {
-            distance = Distance::to_euclidean(distance); // This gives the chance of applying the square root
+            distance = Distance::to_euclidean(distance); // This gives the chance of 
+                                                         // applying the square root
             float r = quantization_width;
             return 1.0 - 2.0 * normal_cdf( -r / distance ) -
                    ( 2.0 / ( std::sqrt( M_PI * 2.0 ) * ( r / distance ) ) ) *
